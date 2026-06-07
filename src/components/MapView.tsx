@@ -1,12 +1,13 @@
 "use client"
 
-import { useEffect } from "react"
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import MarkerClusterGroup from "react-leaflet-cluster"
 import L from "leaflet"
 import { Place } from "@/types/place"
 import "leaflet/dist/leaflet.css"
+import "react-leaflet-cluster/lib/assets/MarkerCluster.css"
+import "react-leaflet-cluster/lib/assets/MarkerCluster.Default.css"
 
-// Leaflet 기본 마커 아이콘 경로 수동 설정 (Next.js 빌드 이슈 대응)
 const icon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -25,10 +26,6 @@ type Props = {
 export default function MapView({ places }: Props) {
   const placesWithCoords = places.filter((p) => p.lat && p.lng)
 
-  useEffect(() => {
-    // SSR 대응: window 객체 확인
-  }, [])
-
   return (
     <MapContainer
       center={[36.5, 127.5]}
@@ -40,19 +37,21 @@ export default function MapView({ places }: Props) {
         attribution="&copy; VWorld"
         tms={false}
       />
-      {placesWithCoords.map((place) => (
-        <Marker key={place.id} position={[place.lat!, place.lng!]} icon={icon}>
-          <Popup>
-            <div className="space-y-1">
-              <p className="font-semibold">{place.name}</p>
-              <p className="text-xs text-gray-500">{place.address}</p>
-              {place.weekday_open && (
-                <p className="text-xs">평일: {place.weekday_open} - {place.weekday_close}</p>
-              )}
-            </div>
-          </Popup>
-        </Marker>
-      ))}
+      <MarkerClusterGroup chunkedLoading>
+        {placesWithCoords.map((place) => (
+          <Marker key={place.id} position={[place.lat!, place.lng!]} icon={icon}>
+            <Popup>
+              <div className="space-y-1">
+                <p className="font-semibold">{place.name}</p>
+                <p className="text-xs text-gray-500">{place.address}</p>
+                {place.weekday_open && (
+                  <p className="text-xs">평일: {place.weekday_open} - {place.weekday_close}</p>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MarkerClusterGroup>
     </MapContainer>
   )
 }
