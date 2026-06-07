@@ -4,7 +4,13 @@ import { supabase } from "@/lib/supabase"
 export async function POST(req: NextRequest) {
   const body = await req.json()
 
-  const { name, category, address, region, district, hours, closed, wifi, outlet, description } = body
+  const {
+    name, category, address, region, district, age_limit,
+    weekday_open, weekday_close,
+    weekend_open, weekend_close,
+    holiday_open, holiday_close,
+    closed_day, wifi, outlet, description,
+  } = body
 
   if (!name || !category || !address || !region || !district) {
     return NextResponse.json({ error: "필수 항목이 누락되었습니다." }, { status: 400 })
@@ -16,8 +22,14 @@ export async function POST(req: NextRequest) {
     address,
     region,
     district,
-    hours: hours || null,
-    closed: closed || null,
+    age_limit: age_limit || "전연령",
+    weekday_open: weekday_open || null,
+    weekday_close: weekday_close || null,
+    weekend_open: weekend_open || null,
+    weekend_close: weekend_close || null,
+    holiday_open: holiday_open || null,
+    holiday_close: holiday_close || null,
+    closed_day: closed_day || null,
     wifi: !!wifi,
     outlet: !!outlet,
     description: description || null,

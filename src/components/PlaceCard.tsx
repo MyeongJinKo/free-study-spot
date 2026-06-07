@@ -19,10 +19,23 @@ export default function PlaceCard({ place }: Props) {
       <CardContent className="space-y-3">
         <p className="text-sm">{place.description}</p>
         <div className="text-sm text-muted-foreground space-y-1">
-          <p>운영시간: {place.hours}</p>
-          <p>휴무: {place.closed}</p>
+          {place.weekday_open && (
+            <p>평일: {place.weekday_open} - {place.weekday_close}</p>
+          )}
+          {place.weekend_open ? (
+            <p>주말: {place.weekend_open} - {place.weekend_close}</p>
+          ) : (
+            <p>주말: 미운영</p>
+          )}
+          {place.holiday_open ? (
+            <p>공휴일: {place.holiday_open} - {place.holiday_close}</p>
+          ) : (
+            <p>공휴일: 미운영</p>
+          )}
+          {place.closed_day && <p>휴무: {place.closed_day}</p>}
         </div>
         <div className="flex flex-wrap gap-1">
+          {place.age_limit === "청년" && <Badge variant="secondary">청년전용</Badge>}
           {place.wifi && <Badge variant="outline">WiFi</Badge>}
           {place.outlet && <Badge variant="outline">콘센트</Badge>}
           {place.tags?.map((tag) => (

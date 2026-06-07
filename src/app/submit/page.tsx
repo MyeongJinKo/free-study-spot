@@ -28,8 +28,14 @@ export default function SubmitPage() {
     address: "",
     region: "",
     district: "",
-    hours: "",
-    closed: "",
+    age_limit: "전연령",
+    weekday_open: "",
+    weekday_close: "",
+    weekend_open: "",
+    weekend_close: "",
+    holiday_open: "",
+    holiday_close: "",
+    closed_day: "",
     wifi: false,
     outlet: false,
     description: "",
@@ -91,6 +97,7 @@ export default function SubmitPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+
               <div className="space-y-1.5">
                 <Label htmlFor="name">장소명 *</Label>
                 <Input
@@ -102,19 +109,35 @@ export default function SubmitPage() {
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label>분류 *</Label>
-                <Select onValueChange={(v) => set("category", v)} required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="분류 선택" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="도서관">도서관</SelectItem>
-                    <SelectItem value="카페">카페</SelectItem>
-                    <SelectItem value="공공시설">공공시설</SelectItem>
-                    <SelectItem value="기타">기타</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label>분류 *</Label>
+                  <Select onValueChange={(v) => set("category", v)} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="분류 선택" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="도서관">도서관</SelectItem>
+                      <SelectItem value="청년센터">청년센터</SelectItem>
+                      <SelectItem value="주민센터">주민센터</SelectItem>
+                      <SelectItem value="복지관">복지관</SelectItem>
+                      <SelectItem value="문화센터">문화센터</SelectItem>
+                      <SelectItem value="기타">기타</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label>이용 대상 *</Label>
+                  <Select defaultValue="전연령" onValueChange={(v) => set("age_limit", v)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="전연령">전연령</SelectItem>
+                      <SelectItem value="청년">청년 전용</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div className="space-y-1.5">
@@ -154,25 +177,62 @@ export default function SubmitPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="hours">운영시간</Label>
+              <div className="space-y-2">
+                <Label>평일 운영시간</Label>
+                <div className="grid grid-cols-2 gap-3">
                   <Input
-                    id="hours"
-                    placeholder="예) 09:00 - 22:00"
-                    value={form.hours}
-                    onChange={(e) => set("hours", e.target.value)}
+                    placeholder="오픈 (예: 09:00)"
+                    value={form.weekday_open}
+                    onChange={(e) => set("weekday_open", e.target.value)}
+                  />
+                  <Input
+                    placeholder="마감 (예: 22:00)"
+                    value={form.weekday_close}
+                    onChange={(e) => set("weekday_close", e.target.value)}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="closed">휴무일</Label>
+              </div>
+
+              <div className="space-y-2">
+                <Label>주말 운영시간 <span className="text-muted-foreground text-xs">(미운영 시 비워두세요)</span></Label>
+                <div className="grid grid-cols-2 gap-3">
                   <Input
-                    id="closed"
-                    placeholder="예) 매주 월요일"
-                    value={form.closed}
-                    onChange={(e) => set("closed", e.target.value)}
+                    placeholder="오픈 (예: 09:00)"
+                    value={form.weekend_open}
+                    onChange={(e) => set("weekend_open", e.target.value)}
+                  />
+                  <Input
+                    placeholder="마감 (예: 18:00)"
+                    value={form.weekend_close}
+                    onChange={(e) => set("weekend_close", e.target.value)}
                   />
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>공휴일 운영시간 <span className="text-muted-foreground text-xs">(미운영 시 비워두세요)</span></Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <Input
+                    placeholder="오픈 (예: 09:00)"
+                    value={form.holiday_open}
+                    onChange={(e) => set("holiday_open", e.target.value)}
+                  />
+                  <Input
+                    placeholder="마감 (예: 18:00)"
+                    value={form.holiday_close}
+                    onChange={(e) => set("holiday_close", e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="closed_day">정기 휴무일</Label>
+                <Input
+                  id="closed_day"
+                  placeholder="예) 매주 월요일, 법정공휴일"
+                  value={form.closed_day}
+                  onChange={(e) => set("closed_day", e.target.value)}
+                />
               </div>
 
               <div className="flex gap-6">
