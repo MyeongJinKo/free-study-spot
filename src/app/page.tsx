@@ -1,5 +1,6 @@
 import Link from "next/link"
 import PlaceList from "@/components/PlaceList"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import { buttonVariants } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
 import { Place } from "@/types/place"
@@ -33,9 +34,12 @@ export default async function Home() {
               무료로 이용할 수 있는 공부 공간을 모아뒀어요.
             </p>
           </div>
-          <Link href="/submit" className={buttonVariants({ size: "sm" })}>
-            장소 제보
-          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link href="/submit" className={buttonVariants({ size: "sm" })}>
+              장소 제보
+            </Link>
+          </div>
         </div>
 
         <PlaceList places={places} />
