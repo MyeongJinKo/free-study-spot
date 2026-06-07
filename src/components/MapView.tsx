@@ -33,7 +33,7 @@ export default function MapView({ places }: Props) {
     <MapContainer
       center={[36.5, 127.5]}
       zoom={7}
-      className="w-full h-[450px] rounded-lg z-0"
+      className="w-full h-[300px] sm:h-[450px] rounded-lg z-0"
     >
       <TileLayer
         url={VWORLD_URL}
