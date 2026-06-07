@@ -20,6 +20,8 @@ export type Place = {
   outlet: boolean
   description: string | null
   tags: string[] | null
+  website: string | null
+  instagram: string | null
   geom: unknown | null
   created_at: string
 }
@@ -42,4 +44,6 @@ export type Submission = {
   outlet: boolean
   description?: string
   tags?: string[]
+  website?: string
+  instagram?: string
 }

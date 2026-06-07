@@ -39,6 +39,8 @@ export default function SubmitPage() {
     wifi: false,
     outlet: false,
     description: "",
+    website: "",
+    instagram: "",
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -262,6 +264,26 @@ export default function SubmitPage() {
                   value={form.description}
                   onChange={(e) => set("description", e.target.value)}
                   rows={3}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="website">홈페이지</Label>
+                <Input
+                  id="website"
+                  placeholder="예) https://example.com"
+                  value={form.website}
+                  onChange={(e) => set("website", e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="instagram">인스타그램</Label>
+                <Input
+                  id="instagram"
+                  placeholder="예) https://instagram.com/example"
+                  value={form.instagram}
+                  onChange={(e) => set("instagram", e.target.value)}
                 />
               </div>
 

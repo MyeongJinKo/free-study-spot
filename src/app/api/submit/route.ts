@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
     weekend_open, weekend_close,
     holiday_open, holiday_close,
     closed_day, wifi, outlet, description,
+    website, instagram,
   } = body
 
   if (!name || !category || !address || !region || !district) {
@@ -33,6 +34,8 @@ export async function POST(req: NextRequest) {
     wifi: !!wifi,
     outlet: !!outlet,
     description: description || null,
+    website: website || null,
+    instagram: instagram || null,
   })
 
   if (error) {

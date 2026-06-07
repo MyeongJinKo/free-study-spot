@@ -44,6 +44,22 @@ export default function PlaceCard({ place }: Props) {
             </Badge>
           ))}
         </div>
+        {(place.website || place.instagram) && (
+          <div className="flex gap-3 text-sm">
+            {place.website && (
+              <a href={place.website} target="_blank" rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground underline underline-offset-2">
+                홈페이지
+              </a>
+            )}
+            {place.instagram && (
+              <a href={place.instagram} target="_blank" rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground underline underline-offset-2">
+                인스타그램
+              </a>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   )
