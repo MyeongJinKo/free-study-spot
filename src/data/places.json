@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "마포구립 서강도서관",
+    "category": "도서관",
+    "address": "서울 마포구 서강로 100",
+    "region": "서울",
+    "district": "마포구",
+    "hours": "09:00 - 22:00",
+    "closed": "매주 월요일",
+    "wifi": true,
+    "outlet": true,
+    "free": true,
+    "description": "조용한 열람실과 자유석 이용 가능. 사전 예약 불필요.",
+    "tags": ["열람실", "무료", "조용"]
+  },
+  {
+    "id": 2,
+    "name": "서울시립 은평도서관",
+    "category": "도서관",
+    "address": "서울 은평구 불광로 105",
+    "region": "서울",
+    "district": "은평구",
+    "hours": "09:00 - 21:00",
+    "closed": "매주 월요일, 공휴일",
+    "wifi": true,
+    "outlet": true,
+    "free": true,
+    "description": "넓은 열람실, 스터디룸 예약 가능.",
+    "tags": ["열람실", "스터디룸", "무료"]
+  }
+]
