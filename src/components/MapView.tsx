@@ -29,6 +29,12 @@ const activeIcon = L.icon({
 
 const VWORLD_URL = `https://api.vworld.kr/req/wmts/1.0.0/A678B804-2AAF-304D-8FA6-581AE4E91884/Base/{z}/{y}/{x}.png`
 
+function formatTime(open: string | null, close: string | null): string | null {
+  if (!open || !close) return null
+  const fmt = (t: string) => t.includes(":") ? t : `${t}시`
+  return `${fmt(open)} ~ ${fmt(close)}`
+}
+
 type Props = {
   places: Place[]
   selectedId: number | null
@@ -58,12 +64,25 @@ export default function MapView({ places, selectedId, onSelect }: Props) {
             eventHandlers={{ click: () => onSelect(place.id) }}
           >
             <Popup>
-              <div className="space-y-1">
-                <p className="font-semibold">{place.name}</p>
+              <div className="space-y-1.5 min-w-[180px]">
+                <p className="font-semibold text-sm">{place.name}</p>
                 <p className="text-xs text-gray-500">{place.address}</p>
-                {place.weekday_open && (
-                  <p className="text-xs">평일: {place.weekday_open} - {place.weekday_close}</p>
-                )}
+                <div className="text-xs space-y-0.5 pt-1">
+                  {formatTime(place.weekday_open, place.weekday_close) && (
+                    <p>평일: {formatTime(place.weekday_open, place.weekday_close)}</p>
+                  )}
+                  {place.weekend_open
+                    ? <p>주말: {formatTime(place.weekend_open, place.weekend_close)}</p>
+                    : <p className="text-gray-400">주말: 미운영</p>
+                  }
+                  {place.holiday_open
+                    ? <p>공휴일: {formatTime(place.holiday_open, place.holiday_close)}</p>
+                    : <p className="text-gray-400">공휴일: 미운영</p>
+                  }
+                  {place.closed_day && (
+                    <p className="text-gray-500">휴무: {place.closed_day}</p>
+                  )}
+                </div>
               </div>
             </Popup>
           </Marker>

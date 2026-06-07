@@ -2,6 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Place } from "@/types/place"
 
+function formatTime(open: string | null, close: string | null): string | null {
+  if (!open || !close) return null
+  const fmt = (t: string) => t.includes(":") ? t : `${t}시`
+  return `${fmt(open)} ~ ${fmt(close)}`
+}
+
 type Props = {
   place: Place
 }
@@ -19,19 +25,17 @@ export default function PlaceCard({ place }: Props) {
       <CardContent className="space-y-3">
         <p className="text-sm">{place.description}</p>
         <div className="text-sm text-muted-foreground space-y-1">
-          {place.weekday_open && (
-            <p>평일: {place.weekday_open} - {place.weekday_close}</p>
+          {formatTime(place.weekday_open, place.weekday_close) && (
+            <p>평일: {formatTime(place.weekday_open, place.weekday_close)}</p>
           )}
-          {place.weekend_open ? (
-            <p>주말: {place.weekend_open} - {place.weekend_close}</p>
-          ) : (
-            <p>주말: 미운영</p>
-          )}
-          {place.holiday_open ? (
-            <p>공휴일: {place.holiday_open} - {place.holiday_close}</p>
-          ) : (
-            <p>공휴일: 미운영</p>
-          )}
+          {place.weekend_open
+            ? <p>주말: {formatTime(place.weekend_open, place.weekend_close)}</p>
+            : <p>주말: 미운영</p>
+          }
+          {place.holiday_open
+            ? <p>공휴일: {formatTime(place.holiday_open, place.holiday_close)}</p>
+            : <p>공휴일: 미운영</p>
+          }
           {place.closed_day && <p>휴무: {place.closed_day}</p>}
         </div>
         <div className="flex flex-wrap gap-1">
