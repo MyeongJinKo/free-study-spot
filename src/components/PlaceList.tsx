@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Place, Category } from "@/types/place"
 import PlaceCard from "@/components/PlaceCard"
 import MapViewWrapper from "@/components/MapViewWrapper"
@@ -25,8 +25,15 @@ export default function PlaceList({ places }: Props) {
   const [region, setRegion] = useState("전체")
   const [district, setDistrict] = useState("전체")
   const [category, setCategory] = useState("전체")
+  const [selectedId, setSelectedId] = useState<number | null>(null)
+  const cardRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const handleMarkerSelect = useCallback((id: number) => {
+    setSelectedId(id)
+    cardRefs.current[id]?.scrollIntoView({ behavior: "smooth", block: "center" })
+  }, [])
 
   // 데이터 기반 region/district 목록
   const availableRegions = [
@@ -153,7 +160,7 @@ export default function PlaceList({ places }: Props) {
       </div>
 
       {/* 지도 */}
-      <MapViewWrapper places={filtered} />
+      <MapViewWrapper places={filtered} selectedId={selectedId} onSelect={handleMarkerSelect} />
 
       {/* 결과 수 */}
       <p className="text-sm text-muted-foreground">
@@ -166,7 +173,16 @@ export default function PlaceList({ places }: Props) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {filtered.map((place) => (
-            <PlaceCard key={place.id} place={place} />
+            <div
+              key={place.id}
+              ref={(el) => { cardRefs.current[place.id] = el }}
+              onClick={() => setSelectedId(place.id)}
+              className={`rounded-xl transition-shadow cursor-pointer ring-2 ${
+                selectedId === place.id ? "ring-primary" : "ring-transparent"
+              }`}
+            >
+              <PlaceCard place={place} />
+            </div>
           ))}
         </div>
       )}

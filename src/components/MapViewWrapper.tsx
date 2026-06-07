@@ -5,6 +5,12 @@ import { Place } from "@/types/place"
 
 const MapView = dynamic(() => import("@/components/MapView"), { ssr: false })
 
-export default function MapViewWrapper({ places }: { places: Place[] }) {
-  return <MapView places={places} />
+type Props = {
+  places: Place[]
+  selectedId: number | null
+  onSelect: (id: number) => void
+}
+
+export default function MapViewWrapper({ places, selectedId, onSelect }: Props) {
+  return <MapView places={places} selectedId={selectedId} onSelect={onSelect} />
 }
