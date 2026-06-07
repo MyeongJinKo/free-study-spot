@@ -5,8 +5,8 @@ import MarkerClusterGroup from "react-leaflet-cluster"
 import L from "leaflet"
 import { Place } from "@/types/place"
 import "leaflet/dist/leaflet.css"
-import "react-leaflet-cluster/lib/assets/MarkerCluster.css"
-import "react-leaflet-cluster/lib/assets/MarkerCluster.Default.css"
+import "react-leaflet-cluster/dist/assets/MarkerCluster.css"
+import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css"
 
 const icon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
