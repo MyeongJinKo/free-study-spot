@@ -32,6 +32,10 @@ export default function PlaceList({ places }: Props) {
 
   const handleMarkerSelect = useCallback((id: number) => {
     setSelectedId(id)
+  }, [])
+
+  const handleCardClick = useCallback((id: number) => {
+    setSelectedId(id)
     cardRefs.current[id]?.scrollIntoView({ behavior: "smooth", block: "center" })
   }, [])
 
@@ -176,7 +180,7 @@ export default function PlaceList({ places }: Props) {
             <div
               key={place.id}
               ref={(el) => { cardRefs.current[place.id] = el }}
-              onClick={() => setSelectedId(place.id)}
+              onClick={() => handleCardClick(place.id)}
               className={`rounded-xl transition-shadow cursor-pointer ring-2 ${
                 selectedId === place.id ? "ring-primary" : "ring-transparent"
               }`}
