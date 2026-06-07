@@ -64,23 +64,23 @@ export default function MapView({ places, selectedId, onSelect }: Props) {
             eventHandlers={{ click: () => onSelect(place.id) }}
           >
             <Popup>
-              <div className="space-y-1.5 min-w-[180px]">
-                <p className="font-semibold text-sm">{place.name}</p>
-                <p className="text-xs text-gray-500">{place.address}</p>
-                <div className="text-xs space-y-0.5 pt-1">
+              <div style={{ minWidth: 170, lineHeight: 1.4 }}>
+                <p style={{ fontWeight: 600, fontSize: 13, marginBottom: 3 }}>{place.name}</p>
+                <p style={{ fontSize: 11, color: "#888", marginBottom: 4 }}>{place.address}</p>
+                <div style={{ fontSize: 11 }}>
                   {formatTime(place.weekday_open, place.weekday_close) && (
-                    <p>평일: {formatTime(place.weekday_open, place.weekday_close)}</p>
+                    <p style={{ margin: "1px 0" }}>평일: {formatTime(place.weekday_open, place.weekday_close)}</p>
                   )}
                   {place.weekend_open
-                    ? <p>주말: {formatTime(place.weekend_open, place.weekend_close)}</p>
-                    : <p className="text-gray-400">주말: 미운영</p>
+                    ? <p style={{ margin: "1px 0" }}>주말: {formatTime(place.weekend_open, place.weekend_close)}</p>
+                    : <p style={{ margin: "1px 0", color: "#aaa" }}>주말: 미운영</p>
                   }
                   {place.holiday_open
-                    ? <p>공휴일: {formatTime(place.holiday_open, place.holiday_close)}</p>
-                    : <p className="text-gray-400">공휴일: 미운영</p>
+                    ? <p style={{ margin: "1px 0" }}>공휴일: {formatTime(place.holiday_open, place.holiday_close)}</p>
+                    : <p style={{ margin: "1px 0", color: "#aaa" }}>공휴일: 미운영</p>
                   }
                   {place.closed_day && (
-                    <p className="text-gray-500">휴무: {place.closed_day}</p>
+                    <p style={{ margin: "1px 0", color: "#888" }}>휴무: {place.closed_day}</p>
                   )}
                 </div>
               </div>
