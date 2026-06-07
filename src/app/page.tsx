@@ -1,11 +1,8 @@
-import dynamic from "next/dynamic"
 import Link from "next/link"
-import PlaceCard from "@/components/PlaceCard"
+import PlaceList from "@/components/PlaceList"
 import { buttonVariants } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
 import { Place } from "@/types/place"
-
-const MapView = dynamic(() => import("@/components/MapView"), { ssr: false })
 
 export const revalidate = 3600
 
@@ -41,19 +38,7 @@ export default async function Home() {
           </Link>
         </div>
 
-        <div className="mb-8">
-          <MapView places={places} />
-        </div>
-
-        {places.length === 0 ? (
-          <p className="text-muted-foreground text-sm">등록된 장소가 없습니다.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {places.map((place) => (
-              <PlaceCard key={place.id} place={place} />
-            ))}
-          </div>
-        )}
+        <PlaceList places={places} />
       </div>
     </main>
   )
