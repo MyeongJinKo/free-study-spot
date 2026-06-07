@@ -24,9 +24,22 @@ export default function PlaceList({ places }: Props) {
   const [query, setQuery] = useState("")
   const [open, setOpen] = useState(false)
   const [region, setRegion] = useState("전체")
+  const [district, setDistrict] = useState("전체")
   const [category, setCategory] = useState("전체")
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // 선택된 region에 속한 district 목록 (데이터 기반)
+  const availableDistricts = [
+    "전체",
+    ...Array.from(
+      new Set(
+        places
+          .filter((p) => region === "전체" || p.region === region)
+          .map((p) => p.district)
+      )
+    ).sort(),
+  ]
 
   const suggestions = query.trim().length > 0
     ? places.filter((p) =>
@@ -38,12 +51,13 @@ export default function PlaceList({ places }: Props) {
 
   const filtered = places.filter((p) => {
     const matchRegion = region === "전체" || p.region === region
+    const matchDistrict = district === "전체" || p.district === district
     const matchCategory = category === "전체" || p.category === category
     const matchQuery = query.trim() === "" ||
       p.name.includes(query) ||
       p.address.includes(query) ||
       p.district.includes(query)
-    return matchRegion && matchCategory && matchQuery
+    return matchRegion && matchDistrict && matchCategory && matchQuery
   })
 
   function selectSuggestion(name: string) {
@@ -100,13 +114,24 @@ export default function PlaceList({ places }: Props) {
           )}
         </div>
 
-        <Select value={region} onValueChange={(v) => setRegion(v ?? "전체")}>
+        <Select value={region} onValueChange={(v) => { setRegion(v ?? "전체"); setDistrict("전체") }}>
           <SelectTrigger className="w-full sm:w-32">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {REGIONS.map((r) => (
               <SelectItem key={r} value={r}>{r}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={district} onValueChange={(v) => setDistrict(v ?? "전체")}>
+          <SelectTrigger className="w-full sm:w-32">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {availableDistricts.map((d) => (
+              <SelectItem key={d} value={d}>{d}</SelectItem>
             ))}
           </SelectContent>
         </Select>
