@@ -1,14 +1,17 @@
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import PlaceCard from "@/components/PlaceCard"
 import { buttonVariants } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
 import { Place } from "@/types/place"
 
-export const revalidate = 3600 // 1시간마다 재검증
+const MapView = dynamic(() => import("@/components/MapView"), { ssr: false })
+
+export const revalidate = 3600
 
 async function getPlaces(): Promise<Place[]> {
   const { data, error } = await supabase
-    .from("places")
+    .from("places_with_coords")
     .select("*")
     .order("created_at", { ascending: false })
 
@@ -36,6 +39,10 @@ export default async function Home() {
           <Link href="/submit" className={buttonVariants({ size: "sm" })}>
             장소 제보
           </Link>
+        </div>
+
+        <div className="mb-8">
+          <MapView places={places} />
         </div>
 
         {places.length === 0 ? (

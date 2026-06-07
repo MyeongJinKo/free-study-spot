@@ -23,6 +23,8 @@ export type Place = {
   website: string | null
   instagram: string | null
   geom: unknown | null
+  lat: number | null
+  lng: number | null
   created_at: string
 }
 
