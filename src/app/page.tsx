@@ -1,8 +1,26 @@
 import PlaceCard from "@/components/PlaceCard"
-import places from "@/data/places.json"
+import { supabase } from "@/lib/supabase"
 import { Place } from "@/types/place"
 
-export default function Home() {
+export const revalidate = 3600 // 1시간마다 재검증
+
+async function getPlaces(): Promise<Place[]> {
+  const { data, error } = await supabase
+    .from("places")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("장소 데이터 로딩 실패:", error)
+    return []
+  }
+
+  return data ?? []
+}
+
+export default async function Home() {
+  const places = await getPlaces()
+
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-10">
@@ -13,11 +31,15 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {(places as Place[]).map((place) => (
-            <PlaceCard key={place.id} place={place} />
-          ))}
-        </div>
+        {places.length === 0 ? (
+          <p className="text-muted-foreground text-sm">등록된 장소가 없습니다.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {places.map((place) => (
+              <PlaceCard key={place.id} place={place} />
+            ))}
+          </div>
+        )}
       </div>
     </main>
   )

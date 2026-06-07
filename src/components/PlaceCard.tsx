@@ -25,8 +25,7 @@ export default function PlaceCard({ place }: Props) {
         <div className="flex flex-wrap gap-1">
           {place.wifi && <Badge variant="outline">WiFi</Badge>}
           {place.outlet && <Badge variant="outline">콘센트</Badge>}
-          {place.free && <Badge variant="outline">무료</Badge>}
-          {place.tags.map((tag) => (
+          {place.tags?.map((tag) => (
             <Badge key={tag} variant="outline">
               {tag}
             </Badge>

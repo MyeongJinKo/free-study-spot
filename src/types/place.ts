@@ -5,11 +5,26 @@ export type Place = {
   address: string
   region: string
   district: string
-  hours: string
-  closed: string
+  hours: string | null
+  closed: string | null
   wifi: boolean
   outlet: boolean
-  free: boolean
-  description: string
-  tags: string[]
+  description: string | null
+  tags: string[] | null
+  geom: unknown | null
+  created_at: string
+}
+
+export type Submission = {
+  name: string
+  category: string
+  address: string
+  region: string
+  district: string
+  hours?: string
+  closed?: string
+  wifi: boolean
+  outlet: boolean
+  description?: string
+  tags?: string[]
 }
