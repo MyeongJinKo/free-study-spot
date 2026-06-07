@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const REGIONS = ["전체", "서울", "경기", "인천", "부산", "대구", "광주", "대전", "울산", "세종", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
 const CATEGORIES: ("전체" | Category)[] = ["전체", "도서관", "청년센터", "주민센터", "복지관", "문화센터", "기타"]
 
 type Props = {
@@ -29,7 +28,12 @@ export default function PlaceList({ places }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // 선택된 region에 속한 district 목록 (데이터 기반)
+  // 데이터 기반 region/district 목록
+  const availableRegions = [
+    "전체",
+    ...Array.from(new Set(places.map((p) => p.region))).sort(),
+  ]
+
   const availableDistricts = [
     "전체",
     ...Array.from(
@@ -119,7 +123,7 @@ export default function PlaceList({ places }: Props) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {REGIONS.map((r) => (
+            {availableRegions.map((r) => (
               <SelectItem key={r} value={r}>{r}</SelectItem>
             ))}
           </SelectContent>
