@@ -23,13 +23,13 @@ function createCustomIcon(category: Category, isSelected: boolean) {
   if (typeof window === "undefined") return null
 
   const color = CATEGORY_COLORS[category] ?? CATEGORY_COLORS["기타"]
-  const size = isSelected ? 48 : 36
+  const size = isSelected ? 24 : 18
   const borderWidth = isSelected ? 4 : 2
   const shadow = isSelected
     ? "0 4px 12px rgba(0,0,0,0.4)"
     : "0 2px 6px rgba(0,0,0,0.2)"
   const innerDot = isSelected
-    ? `<div style="width:14px;height:14px;background:white;border-radius:50%;"></div>`
+    ? `<div style="width:7px;height:7px;background:white;border-radius:50%;"></div>`
     : ""
 
   return L.divIcon({
