@@ -40,15 +40,20 @@ export default function MapView({ places, selectedId, onSelect }: Props) {
 
   // 네이버 지도 SDK 로드
   useEffect(() => {
-    if (document.getElementById("naver-map-script")) {
-      setIsLoaded(true)
-      return
+    const load = () => {
+      if (window.naver?.maps) {
+        setIsLoaded(true)
+        return
+      }
+      if (document.getElementById("naver-map-script")) return
+
+      const script = document.createElement("script")
+      script.id = "naver-map-script"
+      script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`
+      script.onload = () => setIsLoaded(true)
+      document.head.appendChild(script)
     }
-    const script = document.createElement("script")
-    script.id = "naver-map-script"
-    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`
-    script.onload = () => setIsLoaded(true)
-    document.head.appendChild(script)
+    load()
   }, [])
 
   // 지도 초기화
