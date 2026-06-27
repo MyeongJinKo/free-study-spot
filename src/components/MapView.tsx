@@ -89,19 +89,19 @@ export default function MapView({ places, selectedId, onSelect }: Props) {
         zIndex: isSelected ? 100 : 1,
       })
 
-      // 정보창
+      // 정보창 (배경 흰색 고정 - 다크모드 무관하게 가독성 유지)
       const infoWindow = new window.naver.maps.InfoWindow({
         content: `
-          <div style="padding:10px;min-width:180px;line-height:1.5;font-family:sans-serif;">
+          <div style="padding:10px 12px;min-width:180px;line-height:1.6;font-family:sans-serif;background:#fff;border-radius:8px;">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
               <div style="width:10px;height:10px;border-radius:50%;background:${color};flex-shrink:0;"></div>
-              <strong style="font-size:13px;">${place.name}</strong>
+              <strong style="font-size:13px;color:#111;">${place.name}</strong>
             </div>
-            <p style="font-size:11px;color:#888;margin:0 0 6px;">${place.address}</p>
-            <div style="font-size:11px;color:#444;">
+            <p style="font-size:11px;color:#666;margin:0 0 6px;">${place.address}</p>
+            <div style="font-size:11px;color:#333;">
               ${formatTime(place.weekday_open, place.weekday_close) ? `<p style="margin:2px 0;">평일: ${formatTime(place.weekday_open, place.weekday_close)}</p>` : ""}
-              ${place.weekend_open ? `<p style="margin:2px 0;">주말: ${formatTime(place.weekend_open, place.weekend_close)}</p>` : `<p style="margin:2px 0;color:#bbb;">주말: 미운영</p>`}
-              ${place.holiday_open ? `<p style="margin:2px 0;">공휴일: ${formatTime(place.holiday_open, place.holiday_close)}</p>` : `<p style="margin:2px 0;color:#bbb;">공휴일: 미운영</p>`}
+              ${place.weekend_open ? `<p style="margin:2px 0;">주말: ${formatTime(place.weekend_open, place.weekend_close)}</p>` : `<p style="margin:2px 0;color:#aaa;">주말: 미운영</p>`}
+              ${place.holiday_open ? `<p style="margin:2px 0;">공휴일: ${formatTime(place.holiday_open, place.holiday_close)}</p>` : `<p style="margin:2px 0;color:#aaa;">공휴일: 미운영</p>`}
               ${place.closed_day ? `<p style="margin:2px 0;color:#888;">휴무: ${place.closed_day}</p>` : ""}
             </div>
           </div>
